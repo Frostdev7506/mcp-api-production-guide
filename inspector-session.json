@@ -1,0 +1,1 @@
+{"mcpServers":{"support-demo":{"type":"streamable-http","url":"http://127.0.0.1:4311/mcp","protocolEra":"modern","oauth":{"clientId":"support-inspector","scopes":"tickets:read tickets:write","requestRefreshToken":true}}}}

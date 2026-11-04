@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env*
+!.env.example
+secrets/
+.deploy/
+.vercel/
+backups/
+*.log
+.DS_Store

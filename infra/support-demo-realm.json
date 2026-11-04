@@ -1,0 +1,125 @@
+{
+  "realm": "support-demo",
+  "enabled": true,
+  "displayName": "Support tutorial \u2014 sample accounts",
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "resetPasswordAllowed": false,
+  "accessTokenLifespan": 300,
+  "clientScopes": [
+    {
+      "name": "tickets:read",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Read your support tickets"
+      }
+    },
+    {
+      "name": "tickets:write",
+      "protocol": "openid-connect",
+      "attributes": {
+        "include.in.token.scope": "true",
+        "display.on.consent.screen": "true",
+        "consent.screen.text": "Prepare and create internal support tickets"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "maya",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Maya",
+      "lastName": "Demo",
+      "email": "maya@example.invalid",
+      "attributes": {
+        "tenant_id": [
+          "acme"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Tutorial-Only-2026!",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "username": "sam",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Sam",
+      "lastName": "Demo",
+      "email": "sam@example.invalid",
+      "attributes": {
+        "tenant_id": [
+          "northstar"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "Tutorial-Only-2026!",
+          "temporary": false
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "support-inspector",
+      "name": "Support tutorial inspector",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [
+        "http://localhost:6274/oauth/callback",
+        "http://localhost:6274/oauth/callback/debug",
+        "http://127.0.0.1:4312/callback"
+      ],
+      "webOrigins": [
+        "http://localhost:6274",
+        "http://127.0.0.1:4312"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "resource_url": "http://127.0.0.1:4311/mcp"
+      },
+      "defaultClientScopes": [
+        "tickets:read"
+      ],
+      "optionalClientScopes": [
+        "tickets:write"
+      ],
+      "protocolMappers": [
+        {
+          "name": "tenant",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "user.attribute": "tenant_id",
+            "claim.name": "tenant_id",
+            "jsonType.label": "String",
+            "access.token.claim": "true",
+            "id.token.claim": "false",
+            "userinfo.token.claim": "true"
+          }
+        },
+        {
+          "name": "mcp-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "http://127.0.0.1:4311/mcp",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ]
+}

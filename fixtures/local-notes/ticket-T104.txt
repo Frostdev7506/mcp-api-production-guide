@@ -1,0 +1,3 @@
+Sample data
+Ticket T104: Checkout fails on mobile.
+Desktop checkout works. Ask which browser was used.

@@ -1,0 +1,30 @@
+{
+  "source": "Application source used for the MCP video",
+  "verified": "2026-11-04",
+  "files": [
+    {
+      "file": "src/api.ts",
+      "sha256": "bc7311cfe887a0b90e5a86242f6b97678dfd0438e7ab3e3774414d790cc81362"
+    },
+    {
+      "file": "src/auth.ts",
+      "sha256": "e5623c64c7ae7df3a15b5e6f053efe8554ff02f0541652b2edac9917311062b5"
+    },
+    {
+      "file": "src/hosted-api.ts",
+      "sha256": "6ad78e98abdfe9612a75daad9a481ea83095a5ef67c95ead01ce2b6298fd34b3"
+    },
+    {
+      "file": "src/hosted-mcp.ts",
+      "sha256": "ef693f0a30d6a5064b7a60452bd629c1b3ebb4165ec5104c08e77dbaefd428b6"
+    },
+    {
+      "file": "src/main.ts",
+      "sha256": "95fef639ed248a9c348de1482a6b310d7a8bd99ae718012171bc136a3f440fe2"
+    },
+    {
+      "file": "src/mcp.ts",
+      "sha256": "af07b2d362fba910cbbc2aeb7b46ab51c124792d1672f50a93bb3a0e6306f03c"
+    }
+  ]
+}
