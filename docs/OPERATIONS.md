@@ -14,7 +14,7 @@
 
 ## Limits you must resolve for your environment
 
-In-memory rate limiting applies to one process. Add a shared limiter or gateway for a replicated/serverless deployment. Configure platform request/concurrency limits and database connection budgets together. Load-test the full hosted path; a local API benchmark excludes the model, transport, TLS and network.
+The API enforces a PostgreSQL-backed fixed-window budget of 120 requests per verified company/user per minute by default. Instances sharing that database share the counter. This adds a database write per authenticated request; size the database accordingly and plan stale-counter retention. Add appropriate ingress limits for unauthenticated traffic and platform-wide overload. Configure platform request/concurrency limits and database connection budgets together. Load-test the full hosted path; a local API benchmark excludes the model, transport, TLS and network.
 
 Company filters are enforced by application code in this example; do not describe them as a separate database row-level-security policy. Assess defense in depth for your own data and threat model. Configure internal API ingress, key/secret rotation, audit retention, monitoring and alert delivery. Do not log tokens or customer ticket descriptions.
 

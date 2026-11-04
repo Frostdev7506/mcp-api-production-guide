@@ -1,12 +1,12 @@
 # Deploy your own hosted example
 
-The recording uses two Vercel Express services, Neon PostgreSQL and an isolated Auth0 tenant. Follow this after the local walkthrough works. Use your own resources and secrets. Free-plan availability and limits can change; check the providers before creating resources. No paid plan is necessary for the demonstrated workload.
+The recording uses two Vercel Express services, Neon PostgreSQL and an isolated Auth0 tenant. Follow this after the local walkthrough works. Use your own resources and secrets. The local path needs no paid service. Hosted feature access depends on your current provider entitlements; do not assume the recorded demo establishes a permanently free production stack.
 
 This guide reproduces the architecture. Account ownership, consent and client-registration screens may differ from the recording. Never copy the creator's account identifiers or use the creator's deployed endpoint as your own backend.
 
 ## 1. Create the database and restricted role
 
-Create a PostgreSQL database with TLS. Keep its owner connection string in a deployment secret store as `MIGRATION_DATABASE_URL`. Using an administrator SQL session, create a login role named `support_app` with a new random password, without superuser, create-database or create-role permissions. The migration grants runtime access to this role; it must exist first.
+Create a PostgreSQL database named **support** with TLS. The included migration grants access to that database name. Keep its owner connection string in a deployment secret store as `MIGRATION_DATABASE_URL`. Using an administrator SQL session, create a login role named `support_app` with a new random password, without superuser, create-database or create-role permissions. The migration grants runtime access to this role; it must exist first.
 
 ```sql
 CREATE ROLE support_app LOGIN NOSUPERUSER NOCREATEDB NOCREATEROLE;
@@ -24,7 +24,7 @@ Create a TLS connection string for `support_app`; this becomes the API service's
 
 ## 2. Reserve your service URLs
 
-Create two free Vercel projects, one API and one MCP service. Reserve their final HTTPS hostnames. For example:
+Create two Vercel projects on a plan suitable for your demonstration, one API and one MCP service. Reserve their final HTTPS hostnames. For example:
 
 - API: `https://YOUR_API_HOST`
 - MCP resource: `https://YOUR_MCP_HOST/mcp`
@@ -39,7 +39,9 @@ This creates ignored `.deploy/api` and `.deploy/mcp` directories with explicit s
 
 ## 3. Configure an isolated Auth0 tenant
 
-Create an API/resource server whose identifier is your exact HTTPS MCP URL, with RS256 signing and scopes `tickets:read` and `tickets:write`. Use a short access-token lifetime; the recording used 900 seconds. Obtain the exact issuer URL, normally ending in `/`.
+In the Auth0 dashboard, open **Applications → APIs → Create API**. Create an API/resource server whose identifier is your exact HTTPS MCP URL, with RS256 signing and scopes `tickets:read` and `tickets:write`. Use a short access-token lifetime; the recording used 900 seconds. Obtain the exact issuer URL, normally ending in `/`.
+
+In **Settings → Advanced**, enable **Resource Parameter Compatibility Profile** so MCP's `resource` request selects the intended audience. Enable **Client ID Metadata Document Registration**, while leaving dynamic CIMD registration and DCR disabled for this manually approved demo. Set user-delegated API access to require an explicit application grant; grant each demo client only the two ticket scopes, without automatically adding future scopes. Leave machine-to-machine access disabled. Confirm `client_id_metadata_document_supported: true` in discovery. The MCP adapter preserves that provider field.
 
 Use a dedicated synthetic database connection. Create your own demo users with private, unique passwords. Assign Maya `app_metadata: {"tenant_id":"acme"}` and a second user `{"tenant_id":"northstar"}` through an administrator-controlled process. A user must not be able to edit this company assignment.
 
@@ -52,9 +54,13 @@ Deploy the Action and bind it to the Login flow. It adds the company claim only 
 
 Register each intended OAuth client separately. The recorded Inspector client was public/native with PKCE and an exact loopback `/oauth/callback`. Use the actual callback shown by your Inspector; no wildcards. Grant only the two user-delegated ticket scopes needed for the demo. Do not grant the Auth0 Management API or a machine-to-machine substitute for user access.
 
+For ChatGPT, open **Applications → Applications → Create Application → Import from URL**. Use the exact official CIMD URL shown for your ChatGPT connection, select **Preview**, verify metadata and callback, then create the client. The recording used `https://chatgpt.com/oauth/client.json`, callback `https://chatgpt.com/connector_platform_oauth_redirect`, and the document's public JWKS for `private_key_jwt`. Some connection modes use a callback-specific metadata URL; do not assume the recording's stable URL applies to every account. Auth0's [manual CIMD instructions](https://auth0.com/docs/get-started/auth0-overview/create-applications/register-applications-with-cimd) describe this flow.
+
+**Check entitlement before choosing this hosted route:** current Auth0 documentation lists Private Key JWT client authentication as an Enterprise feature. The recorded tenant accepted it, but that does not prove a new free tenant has the same entitlement or that trial access lasts. Do not upgrade or enter payment details to follow this tutorial. If unavailable, keep using the fully local Keycloak path or evaluate a provider/registration method supported by your actual ChatGPT connection. That alternative must be tested; it was not the hosted flow recorded here.
+
 The ChatGPT demo used a manually registered official client ID metadata document (CIMD), with dynamic registration disabled. Configure this using the [current official ChatGPT authentication instructions](https://developers.openai.com/plugins/build/auth) and your provider's supported flow. Verify official metadata, callback and key URLs from those instructions. Do not paste a made-up client ID, use another application's client secret, or assume every provider supports CIMD.
 
-For an isolated Auth0 third-party/CIMD setup, the synthetic database connection may need domain-level availability. That makes the connection eligible for other third-party applications in that tenant, including future registrations. Evaluate that tenant-wide setting before enabling it; do not apply it casually to a tenant holding real users. Do not enable unrelated social connections. The recording used this setting only for its isolated synthetic tenant.
+For an isolated Auth0 third-party/CIMD setup, the synthetic database connection needs domain-level availability for this strict third-party flow. That makes the connection eligible for other third-party applications in that tenant, including future registrations. Evaluate that tenant-wide setting before enabling it; do not apply it casually to a tenant holding real users. The [Auth0 connection guide](https://auth0.com/docs/authenticate/identity-providers/promote-connections-to-domain-level) shows this under **Authentication → Database → your connection → Settings → Advanced**. Do not enable unrelated social connections. The recording used this setting only for its isolated synthetic tenant.
 
 If refresh access is needed, enable bounded, rotating refresh tokens for the specific clients, explicit consent and revocation. The recorded policy was 24-hour idle / seven-day maximum, with a ten-second rotation overlap. Confirm current provider capabilities; do not use unlimited offline access as a shortcut.
 

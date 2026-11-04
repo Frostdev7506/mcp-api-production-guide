@@ -102,7 +102,7 @@ Stop local containers with `docker compose stop`. Existing database volumes keep
 
 The integration suite covers authentication failures, company isolation, schemas, pagination, permissions and safe write replay. The recorded hosted demo additionally verified Auth0 login/refresh, a private ChatGPT T104 read, an Inspector read and a denied sign-in without a company assignment. **A write-confirmation flow in ChatGPT was not verified.** Test that in your intended host before enabling writes.
 
-The local identity server uses HTTP on loopback. Hosted services require HTTPS. The free hosted example uses a public API address protected by a separate short-lived credential; it does not demonstrate private network ingress. In-memory rate limits are per process, not a shared fleet-wide quota. Free services do not provide this project with a production SLA.
+The local identity server uses HTTP on loopback. Hosted services require HTTPS. The free hosted example uses a public API address protected by a separate short-lived credential; it does not demonstrate private network ingress. The API uses a PostgreSQL-backed request budget shared by instances using that database; ingress limits and database capacity still need deployment-specific checks. Free services do not provide this project with a production SLA.
 
 No account credentials, recordings, deployed database URLs or narrator voice assets are included. All sample tickets are synthetic. Code is [MIT licensed](LICENSE); dependency and service terms apply separately.
 
