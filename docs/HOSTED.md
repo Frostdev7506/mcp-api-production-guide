@@ -29,13 +29,30 @@ Create two Vercel projects on a plan suitable for your demonstration, one API an
 - API: `https://YOUR_API_HOST`
 - MCP resource: `https://YOUR_MCP_HOST/mcp`
 
-The full MCP URL is the OAuth audience/resource identifier. Keep it exact throughout configuration. Generate a separate random delegation secret of at least 32 bytes; supply the same value to these two services only.
+The full MCP URL is the OAuth audience/resource identifier. Keep it exact throughout configuration. Generate a separate random delegation secret of at least 32 bytes; supply the same value to these two services only. With OpenSSL available, this writes a new private, ignored file and refuses to overwrite an existing one:
+
+```sh
+mkdir -p secrets
+(umask 077; set -C; openssl rand -hex 32 > secrets/hosted-delegation-secret.txt)
+```
+
+Use the value privately in the environment prompts below. Do not print it during a recording or commit it.
 
 ```sh
 npm run stage:vercel
 ```
 
 This creates ignored `.deploy/api` and `.deploy/mcp` directories with explicit source allowlists and Express entry points. Each directory is an independent deployment root. Use the official Vercel dashboard/CLI to link and deploy each root. Do not deploy the repository root or commit platform tokens. The `.deploy` source needs no Docker container on Vercel.
+
+The recording used **Vercel CLI 65.2.0**. From the repository root, sign in and link each directory to its corresponding project:
+
+```sh
+npx --yes vercel@65.2.0 login
+npx --yes vercel@65.2.0 link --cwd .deploy/api
+npx --yes vercel@65.2.0 link --cwd .deploy/mcp
+```
+
+Select your own account/team and the appropriate existing project at each prompt. Keep each linked project's root at that staged directory. A GitHub import of the repository root does not include ignored `.deploy` output. This guide uses CLI source deployments instead.
 
 ## 3. Configure an isolated Auth0 tenant
 
@@ -77,6 +94,20 @@ Use the platform secret store, not public build-time variables or committed env 
 | MCP | `MCP_URL` | Your full HTTPS MCP resource URL |
 | MCP | `OAUTH_ISSUER` | Exact Auth0 issuer, including trailing slash |
 | MCP | `OAUTH_TENANT_CLAIM` | Same namespaced claim as the Action |
+
+Add each value through the CLI's private prompts:
+
+```sh
+npx --yes vercel@65.2.0 env add DATABASE_URL --environment production --sensitive --cwd .deploy/api
+npx --yes vercel@65.2.0 env add DELEGATION_SECRET --environment production --sensitive --cwd .deploy/api
+npx --yes vercel@65.2.0 env add DELEGATION_SECRET --environment production --sensitive --cwd .deploy/mcp
+npx --yes vercel@65.2.0 env add API_URL --environment production --sensitive --cwd .deploy/mcp
+npx --yes vercel@65.2.0 env add MCP_URL --environment production --sensitive --cwd .deploy/mcp
+npx --yes vercel@65.2.0 env add OAUTH_ISSUER --environment production --sensitive --cwd .deploy/mcp
+npx --yes vercel@65.2.0 env add OAUTH_TENANT_CLAIM --environment production --sensitive --cwd .deploy/mcp
+npx --yes vercel@65.2.0 --prod --cwd .deploy/api
+npx --yes vercel@65.2.0 --prod --cwd .deploy/mcp
+```
 
 Deploy the API first, then MCP. `src/hosted-api.ts` and `src/hosted-mcp.ts` are the hosted entry modules. The local combined launcher uses a different configuration and is not the Vercel entry.
 
