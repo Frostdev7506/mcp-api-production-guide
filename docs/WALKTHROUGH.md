@@ -1,5 +1,7 @@
 # Follow the video
 
+[Watch the full tutorial](https://www.youtube.com/watch?v=W_5nOBNx1ss).
+
 Use the README's local setup first. Every example below uses the same synthetic support product and Maya's Acme account.
 
 ## 1. Read, then check the boundary
@@ -46,30 +48,30 @@ The user cannot choose another `tenant_id` in tool arguments. The MCP user token
 
 | Time | What to follow |
 | --- | --- |
-| 00:00 | Result and plan |
-| 00:51 | Existing API and ticket story |
-| 01:29 | Why MCP |
-| 02:08 | One request through host, client and server |
-| 03:05 | Tools, resources and prompts |
-| 03:41 | `npm run demo:local` |
-| 04:57 | Our server and project files |
-| 05:38 | First tool in `src/mcp.ts` |
-| 06:33 | Inspector before an AI application |
-| 07:09 | Read T104 |
-| 07:48 | Streamable HTTP |
-| 08:28 | OAuth sign-in |
-| 09:28 | Scopes and company permissions |
-| 10:06 | Separate API credential |
-| 10:26 | Prepare and confirm |
-| 11:11 | Retry one draft without duplicates |
-| 11:54 | Bounded failures |
-| 12:35 | Treat customer text as data |
-| 13:15 | Operating the service |
-| 13:54 | Hosted ChatGPT read |
-| 14:38 | Another client and isolation check |
-| 15:02 | Alternatives |
-| 16:23 | Private connections and distribution |
-| 17:31 | What still needs launch evidence |
+| [00:00](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=0) | Result and plan |
+| [00:51](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=51) | Existing API and ticket story |
+| [01:29](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=89) | Why MCP |
+| [02:08](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=128) | One request through host, client and server |
+| [03:05](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=185) | Tools, resources and prompts |
+| [03:41](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=221) | `npm run demo:local` |
+| [04:57](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=297) | Our server and project files |
+| [05:38](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=338) | First tool in `src/mcp.ts` |
+| [06:33](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=393) | Inspector before an AI application |
+| [07:09](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=429) | Read T104 |
+| [07:48](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=468) | Streamable HTTP |
+| [08:28](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=508) | OAuth sign-in |
+| [09:28](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=568) | Scopes and company permissions |
+| [10:06](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=606) | Separate API credential |
+| [10:26](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=626) | Prepare and confirm |
+| [11:11](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=671) | Retry one draft without duplicates |
+| [11:54](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=714) | Bounded failures |
+| [12:35](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=755) | Treat customer text as data |
+| [13:15](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=795) | Operating the service |
+| [13:54](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=834) | Hosted ChatGPT read |
+| [14:38](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=878) | Another client and isolation check |
+| [15:02](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=902) | Alternatives |
+| [16:23](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=983) | Private connections and distribution |
+| [17:31](https://www.youtube.com/watch?v=W_5nOBNx1ss&t=1051) | What still needs launch evidence |
 
 ## Check your understanding
 

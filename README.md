@@ -1,5 +1,7 @@
 # MCP explained: build a server for your API
 
+**[Watch the full 18-minute tutorial](https://www.youtube.com/watch?v=W_5nOBNx1ss)** · [Recorded version: video-r7](https://github.com/Frostdev7506/mcp-api-production-guide/tree/video-r7)
+
 The companion code for Neeraj Butola's MCP video. Follow one support-ticket example from an existing HTTP API to an authenticated MCP server, then connect a real client.
 
 **Start locally.** You do not need Auth0, Neon, Vercel, an OpenAI API key or a paid AI account for the local walkthrough. The hosted chapter is a separate deployment using your own accounts.
